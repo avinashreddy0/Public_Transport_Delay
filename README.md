@@ -22,6 +22,21 @@ This project predicts the **delay time in minutes** and explains the key reasons
 
 ---
 
+## 🧭 Table of contents
+
+- [🧩 Problem statement](#-problem-statement)
+- [💡 Our solution](#-our-solution)
+- [✅ What we did (work done)](#-what-we-did-work-done)
+- [🛠️ Tools & tech used](#️-tools--tech-used)
+- [🗂️ Folder structure (tree)](#️-folder-structure-tree)
+- [⚡ Quick start (run this project)](#-quick-start-run-this-project)
+- [📁 Repository structure (every file explained)](#-repository-structure-every-file-explained)
+- [🖼️ Results (images shown from-result-pic)](#️-results-images-shown-from-result-pic)
+- [🖼️ How to show images in README (important)](#️-how-to-show-images-in-readme-important)
+- [👤 Author](#-author)
+
+---
+
 ## 🧩 Problem statement
 
 Public transport systems often experience delays due to:
@@ -52,6 +67,116 @@ Raw messy dataset → ETL cleaning → preprocessing + feature engineering → E
 
 ---
 
+## ✅ What we did (work done)
+
+- 🧹 **ETL pipeline**: extracted raw data, cleaned messy values, and saved a clean dataset (`ETL/` + `public_transport_delay_cleaned.csv`).
+- 🧼 **Preprocessing**: prepared data for ML (missing values, scaling, encoding) (`perprocessing/` + pipelines in `Model/`).
+- 🧠 **Feature engineering**: created model-friendly features and exported `feature_engineering.csv`.
+- 📊 **EDA**: explored distributions, correlations, outliers, and relationships like rainfall vs delay (`EDA/eda.ipynb`).
+- 🤖 **Model training**: trained regression models (Linear Regression, Random Forest) and compared performance.
+- 📏 **Evaluation**: used **MAE**, **RMSE**, and **R²** to measure accuracy.
+- 🔍 **Explainability**: used **SHAP** to understand the most important delay drivers (`model_explainability/SHAP.ipynb`).
+- ✅ **Cross validation**: experimented with cross-validation (`cross_validation/`).
+- 🎛️ **Hyperparameter tuning**: experimented with tuning (`hyperparameter tuning/`).
+- 🗄️ **SQL analysis**: wrote queries for avg delay by city/traffic/rush hour/events/routes (`SQL/transport_delay_queries.sql`).
+- 📈 **Power BI dashboard**: built an interactive report (`power bi/public_transport_delay.pbix`).
+- 🌐 **Streamlit app**: created an app to input trip conditions and predict delay (`app/delay_app.py`).
+- 📸 **Results screenshots**: saved proof images in `Result pic/` and embedded them in this README.
+
+---
+
+## 🛠️ Tools & tech used
+
+### Python (data + ML)
+
+- 🐍 Python
+- 🐼 pandas, 🧮 numpy
+- 🤖 scikit-learn (pipelines, preprocessing, regression models, metrics)
+- 📉 matplotlib, 🎨 seaborn
+- 🔍 SHAP (model explainability)
+- 💾 joblib (saving/loading models)
+- 🌐 Streamlit (web app)
+
+### Database (SQL)
+
+- 🗄️ **MySQL Server + MySQL Workbench** (installed separately; not via `pip`)
+- 🧩 **SQLAlchemy + PyMySQL** (Python connectors used in `ETL/Load.ipynb`)
+
+### BI / Reporting
+
+- 📊 **Power BI Desktop** (installed separately; not via `pip`)
+
+---
+
+## 🗂️ Folder structure (tree)
+
+```text
+Public_Transport_Delay/
+├── README.md
+├── requirements.txt
+├── .gitignore
+├── thumbline.png
+├── public_transport_delay_cleaned.csv
+├── feature_engineering.csv
+│
+├── problem_statement/
+│   ├── .txt
+│   └── public_transport_delay_cleaned.csv
+│
+├── ETL/
+│   ├── Extract.ipynb
+│   ├── Transform.ipynb
+│   ├── Load.ipynb
+│   ├── public_transport_delay_messy_45000.csv
+│   ├── public_transport_delay_cleaned.csv
+│   └── public_transport_delay_cleaned.xlsx
+│
+├── EDA/
+│   └── eda.ipynb
+│
+├── perprocessing/
+│   └── .ipynb
+│
+├── feature_engineering/
+│   ├── .ipynb
+│   └── feature_engineering.csv
+│
+├── Model/
+│   ├── full_model_code.ipynb
+│   └── linear_model.pkl
+│
+├── model_pipelines/
+│   └── pipelines.ipynb
+│
+├── model_explainability/
+│   └── SHAP.ipynb
+│
+├── cross_validation/
+│   └── .ipynb
+│
+├── hyperparameter tuning/
+│   └── .ipynb
+│
+├── SQL/
+│   └── transport_delay_queries.sql
+│
+├── power bi/
+│   └── public_transport_delay.pbix
+│
+├── app/
+│   ├── delay_app.py
+│   ├── linear_model.pkl
+│   ├── Gemini_Generated_Image_joezrjjoezrjjoez.png
+│   └── Gemini_Generated_Image_9i4rke9i4rke9i4r.png
+│
+└── Result pic/
+    ├── Screenshot 2026-04-01 215913.png
+    ├── Screenshot 2026-04-01 215935.png
+    └── ... more screenshots ...
+```
+
+---
+
 ## ⚡ Quick start (run this project)
 
 ### 1) Install Python requirements 📦
@@ -64,11 +189,16 @@ pip install -r requirements.txt
 
 - `ETL/Extract.ipynb`
 - `ETL/Transform.ipynb`
-- `ETL/Load.ipynb` (loads into MySQL using SQLAlchemy + PyMySQL)
+- `ETL/Load.ipynb` (loads into **MySQL Workbench** using `SQLAlchemy` + `PyMySQL`)
 - `perprocessing/.ipynb`
 - `feature_engineering/.ipynb`
 - `EDA/eda.ipynb`
 - `Model/full_model_code.ipynb`
+
+✅ After this, you will have:
+- cleaned dataset (`public_transport_delay_cleaned.csv`)
+- engineered dataset (`feature_engineering.csv`)
+- saved model(s) (`linear_model.pkl`, and optionally Random Forest if exported)
 
 ### 3) Run the Streamlit app 🌐
 
@@ -87,6 +217,12 @@ To fix: export/save the Random Forest model from your notebook and place it as `
 
 - Open `power bi/public_transport_delay.pbix` in **Power BI Desktop**
 - Refresh the dataset if required
+
+### 5) Run SQL queries in MySQL Workbench 🗄️
+
+- Open `SQL/transport_delay_queries.sql`
+- Make sure your database/table names match your environment (the file uses `transport`)
+- Run queries to reproduce dashboard-style insights (avg delay by city, traffic, rush hour, events, routes)
 
 ---
 
