@@ -1,0 +1,155 @@
+# Public Transport Delay Prediction Project
+
+## Problem Statement
+
+Public transport systems often experience delays due to several factors such as weather conditions, traffic congestion, public events, and peak travel hours. These delays affect passenger travel planning and reduce transport efficiency.
+
+The goal of this project is to analyze these factors and build a machine learning model that predicts **how many minutes a transport trip will be delayed**.
+
+
+Target variable:
+delay_minutes 
+
+---
+
+## Objectives
+
+* Clean messy real-world transport data.
+* Analyze how weather, traffic, and events influence delays.
+* Build regression models to predict delay time.
+* Compare models and select the best performing model.
+* Provide insights that can help improve transport scheduling.
+
+---
+
+## Dataset Features
+
+The dataset contains the following features:
+
+* trip_id
+* city
+* route_id
+* hour
+* rainfall_mm
+* temperature
+* humidity
+* wind_speed
+* rush_hour
+* traffic_level
+* event_today
+* event_type
+* is_weekend
+* vehicle_type
+* delay_minutes (target variable)
+
+---
+
+## Project Workflow
+
+### 1. Data Cleaning And Preprocessing 
+# using  this one hot encoder,label encoder,standardizing,
+
+The dataset contains messy values such as:
+
+Conc3rt@@
+6.5mm##
+22:00
+Bu$-45@A
+
+
+Cleaning steps include:
+
+* removing symbols
+* converting numeric values
+* standardizing text categories
+
+---
+
+### 2. Feature Engineering
+
+New features are created to improve prediction:
+
+* rush_hour
+* heavy_rain
+* is_weekend
+
+---
+
+### 3. Exploratory Data Analysis (EDA)
+
+Visualizations are used to understand patterns such as:
+
+* rainfall vs delay
+* traffic level vs delay
+* event impact on delays
+* Outliers
+* corr
+* Distritubution of data using his plot
+* vilot plot
+
+---
+
+### 4. Model Building
+
+Regression models used:
+
+* Linear Regression
+* Decision Tree Regressor
+* Random Forest Regressor
+
+The target variable is:
+
+delay_minutes
+
+---
+
+### 5. Model Evaluation
+
+Models are evaluated using:
+
+* MAE (Mean Absolute Error)
+* RMSE (Root Mean Square Error)
+* R² Score
+
+---
+
+### 6. Explainability
+
+SHAP analysis is used to identify the most important factors influencing transport delays.
+
+---
+
+## Expected Outcome
+
+This project produces:
+
+* a machine learning model that predicts delay time
+* insights into factors causing transport delays
+* a clean ETL pipeline for messy datasets
+
+---
+
+## Technologies Used
+
+* Python
+* Pandas
+* Scikit-learn
+* Matplotlib / Seaborn
+* SHAP
+* MySQL (for data loading)
+* stream lit (for deploy)
+* power bi (dash board)
+* Evaluation
+* ML Algorithms
+* ETL
+
+
+------------------------------------------------------------------
+
+# Note : This project mainly for specific city only 
+
+-------------------------------------------------------------------
+
+## Author
+
+Induri Avinash Reddy
