@@ -67,9 +67,7 @@ with tab3:
         rainfall_mm = st.number_input('RAINFALL_MM', min_value=0.0)
         temperature = st.number_input('TEMPERATURE', min_value=-50.0)
         humidity = st.number_input('HUMIDITY', min_value=0.0)
-        st.write(1:'Hyderabad',2:'Bangalore',3:'Chennai',4:'Mumbai',5:'Delhi')
         city = st.selectbox('CITY', [1,2,3,4,5])
-        st.write('1':'Metro','2':'Bus',3:'Train')
         vehicle_type = st.selectbox('VEHICLE_TYPE',[1,2,3])
 
 
@@ -77,7 +75,6 @@ with tab3:
         wind_speed = st.number_input('WIND_SPEED', min_value=0.0)
         avg_delay_per_traffic_level = st.number_input('AVG_DELAY_PER_TRAFFIC_LEVEL', min_value=0.0)
         humidity_temp_ratio = st.number_input('HUMIDITY_TEMP_RATIO', min_value=0.0)
-        st.write(0:'NO',,1:'YEs')
         is_weekend = st.selectbox('IS_WEEKEND',[0,1])
 
 
