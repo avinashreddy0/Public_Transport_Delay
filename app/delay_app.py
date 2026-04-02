@@ -21,6 +21,10 @@ except Exception as e:
 
 st.sidebar.header('select the model')
 model_select = st.sidebar.selectbox('select_your_model',['Liner Regression','Random Forest Regression'])
+st.write('CITY')
+st.sidebar.write('Hyderabad','Bangalore','Chennai','Mumbai','Delhi')
+st.write('VEHICLE_TYPE')
+st.write('Metro','Bus','Train')
 
 
 
