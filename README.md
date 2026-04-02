@@ -1,4 +1,4 @@
-# 🚌 Public Transport Delay Prediction Project
+# 🚌 Public Transport Delay — Analysis & Prediction
 
 <p align="center">
   <img src="thumbline.png" alt="Public transport delay project thumbnail" width="760"/>
@@ -10,231 +10,203 @@
 
 ---
 
-## ✨ What this project does
+## 📌 Project overview
 
-This project predicts **`DELAY_MINUTES`** (how many minutes a public transport trip is late).
+Public transport delays are influenced by **weather**, **traffic**, **rush hour**, and **events**.  
+This project predicts the **delay time in minutes** and explains the key reasons behind delays.
 
-It combines:
-- 🧹 data cleaning (messy real-world transport data),
-- 🧠 ML models (Linear Regression + Random Forest),
-- 📊 dashboard reporting (Power BI),
-- 🌐 interactive prediction app (Streamlit).
-
----
-
-## 📋 Problem statement
-
-### Background
-
-Public transport systems often run late because of **weather**, **traffic congestion**, **rush hours**, **public events**, and differences between **routes**, **cities**, and **vehicle types**. Passengers cannot plan trips well when delay risk is unknown, and operators lose efficiency when delays are not understood or forecasted.
-
-### What we need to solve
-
-| Question | Why it matters |
-|----------|----------------|
-| **How many minutes** will a trip be delayed? | Helps riders and planners set realistic expectations. |
-| **Which factors** push delay up the most? | Supports scheduling, staffing, and route planning. |
-| **Can we trust messy real-world data?** | Raw feeds often have wrong symbols, mixed units, and bad categories — we must clean before modeling. |
-
-### Project goal (formal)
-
-Build an end-to-end pipeline that **analyzes** delay drivers and **predicts** the target:
-
-- **Target variable:** `delay_minutes` (or `DELAY_MINUTES` in engineered data) — the number of minutes a trip is delayed.
-
-### Project objectives
-
-- 🧹 Clean **messy** transport data (symbols, units, categories).
-- 📊 Explore relationships: weather, traffic, events, time vs delay (**EDA**).
-- 🤖 Train **regression** models to predict delay time.
-- 📈 Compare models and report **MAE**, **RMSE**, and **R²**.
-- 🔍 Explain drivers of delay with **SHAP**.
-- 📉 Turn insights into a **Power BI** dashboard and a **Streamlit** demo app.
-
-### Dataset features (inputs used in the project)
-
-Typical columns in the dataset include:
-
-| Feature | Meaning |
-|---------|---------|
-| `trip_id` | Unique trip identifier |
-| `city` | City / service area |
-| `route_id` | Route or line |
-| `hour` | Time of day |
-| `rainfall_mm`, `temperature`, `humidity`, `wind_speed` | Weather |
-| `rush_hour`, `traffic_level` | Congestion and peak time |
-| `event_today`, `event_type` | Special events |
-| `is_weekend` | Weekend vs weekday |
-| `vehicle_type` | Mode of transport |
-| **`delay_minutes`** | **Target** — minutes delayed |
-
-Engineered features also include ideas such as **`rush_hour`**, **`heavy_rain`**, and **`is_weekend`** (see `feature_engineering/` and notebooks).
-
-### Scope note
-
-This project is focused on a **specific set of cities and routes** (as in the dashboard filters and `problem_statement/`). Results are **illustrative** for that scope, not a global claim for every city worldwide.
+- 🎯 **Target variable:** `delay_minutes` / `DELAY_MINUTES`
+- 🧠 **Models:** Linear Regression, Random Forest Regression
+- 📊 **Dashboard:** Power BI (`power bi/public_transport_delay.pbix`)
+- 🌐 **App:** Streamlit (`app/delay_app.py`)
 
 ---
 
-## 💡 Our solution (what we built)
+## 🧩 Problem statement
 
-We treat delay prediction as a **supervised regression** problem and deliver **data**, **models**, **reports**, and **an app** in one repo.
+Public transport systems often experience delays due to:
+- 🌧️ weather (rainfall, temperature, humidity, wind)
+- 🚦 traffic congestion
+- 🕒 peak hours / rush hour
+- 🎉 public events
+- 🚌 route and vehicle type
 
-### Solution in one picture
+These delays affect passenger planning and reduce system efficiency.  
+So we need a system that can:
+- ✅ predict **how many minutes** a trip will be delayed
+- ✅ identify **which factors** are most responsible for delays
+
+---
+
+## 💡 Our solution
+
+We built an end-to-end pipeline:
 
 ```text
-Messy CSV  →  ETL + preprocessing  →  feature engineering  →  EDA
-                    ↓
-            ML models (Linear + Random Forest) + metrics + SHAP
-                    ↓
-    Power BI dashboard + Streamlit app + SQL analytics + saved models (.pkl)
+Raw messy dataset → ETL cleaning → preprocessing + feature engineering → EDA
+                                  ↓
+                   ML training + evaluation (MAE/RMSE/R²) + SHAP
+                                  ↓
+         Power BI dashboard + Streamlit prediction app + SQL analytics
 ```
 
-### How each part answers the problem
+---
 
-| Layer | What we deliver | How it helps |
-|-------|-----------------|--------------|
-| **ETL** (`ETL/`) | Extract, transform, load; messy → cleaned CSV | Reliable input for analysis and ML |
-| **Preprocessing** (`perprocessing/`) | Imputation, scaling, encoding-ready pipelines | Models see consistent numeric/categorical inputs |
-| **Feature engineering** (`feature_engineering/`) | `feature_engineering.csv` + richer signals | Better prediction than raw columns alone |
-| **EDA** (`EDA/`) | Histograms, correlations, rainfall/traffic vs delay | Validates patterns before modeling |
-| **Model** (`Model/`) | Pipelines, Linear Regression, Random Forest, MAE/RMSE/R², SHAP, `joblib` export | **Answers “how many minutes?”** and **“why?”** |
-| **SQL** (`SQL/`) | Aggregations by city, traffic, rush hour, events, routes | Repeatable analytics for DB-backed workflows |
-| **Power BI** (`power bi/`) | `public_transport_delay.pbix` | Executive-friendly KPIs and slices (see `Result pic/`) |
-| **App** (`app/`) | Streamlit UI + model choice + quick charts | **Interactive** delay estimate for demos |
+## ⚡ Quick start (run this project)
 
-### Expected outcomes (what you get at the end)
+### 1) Install Python requirements 📦
 
-- ✅ A **trained regression model** that outputs predicted delay minutes.
-- ✅ **Evaluation metrics** and **SHAP**-based insight into important features.
-- ✅ A **clean ETL path** from messy strings to modeling-ready tables.
-- ✅ **Dashboard** and **app** screenshots documented under **`Result pic/`**.
+```bash
+pip install -r requirements.txt
+```
+
+### 2) Run notebooks (recommended order) 📒
+
+- `ETL/Extract.ipynb`
+- `ETL/Transform.ipynb`
+- `ETL/Load.ipynb` (loads into MySQL using SQLAlchemy + PyMySQL)
+- `perprocessing/.ipynb`
+- `feature_engineering/.ipynb`
+- `EDA/eda.ipynb`
+- `Model/full_model_code.ipynb`
+
+### 3) Run the Streamlit app 🌐
+
+```bash
+cd app
+streamlit run delay_app.py
+```
+
+⚠️ **Important:** `app/delay_app.py` expects **two model files**:
+- `app/linear_model.pkl` ✅ (present)
+- `app/random_forest_model.pkl` ❌ (currently missing in repo)
+
+To fix: export/save the Random Forest model from your notebook and place it as `app/random_forest_model.pkl` (or update the app code to match your filename).
+
+### 4) Open the Power BI dashboard 📈
+
+- Open `power bi/public_transport_delay.pbix` in **Power BI Desktop**
+- Refresh the dataset if required
 
 ---
 
-## 🧭 Full project flow (step by step)
-
-1. **Extract** raw/messy transport data  
-2. **Transform** data (fix text, numbers, units, categories)  
-3. **Load** cleaned data  
-4. **Preprocess** for ML (imputation, scaling, encoding)  
-5. **Feature engineer** better predictor columns  
-6. **EDA** to understand patterns  
-7. **Train models** and compare metrics  
-8. **Explain model** with SHAP  
-9. **Build dashboard** in Power BI  
-10. **Deploy prediction app** using Streamlit
-
----
-
-## 📁 Every folder and file explained clearly
+## 📁 Repository structure (every file explained)
 
 ### Root files
 
-| File / Folder | Why it is in project |
-|---|---|
-| `README.md` | Main documentation file (this file). |
-| `thumbline.png` | 🖼️ Main thumbnail/hero image for README and portfolio preview. |
-| `feature_engineering.csv` | Final engineered dataset used by modeling/app visual parts. |
-| `public_transport_delay_cleaned.csv` | Cleaned dataset copy available at project root. |
-| `EDA/` | EDA notebook and charts to understand data behavior. |
-| `ETL/` | Full ETL pipeline notebooks + raw and cleaned files. |
-| `Model/` | Model training/evaluation notebook with metrics and SHAP. |
-| `SQL/` | SQL analysis queries for city/traffic/rush-hour/event insights. |
-| `app/` | Streamlit app code and app images/model files (if present). |
-| `feature_engineering/` | Notebook/csv artifacts related to engineered features. |
-| `perprocessing/` | Preprocessing notebook artifacts. |
-| `power bi/` | `.pbix` dashboard file. |
-| `problem_statement/` | project objective and base cleaned file copy. |
-| `Result pic/` | 📸 all screenshots of outputs/results used in README. |
+| Path | What it is | Why it exists |
+|---|---|---|
+| `README.md` | Documentation | Explains project, structure, and results. |
+| `requirements.txt` | Python deps | Install packages for notebooks + Streamlit. |
+| `.gitignore` | Git ignore rules | Ignores `*.pkl` (model files) by default. |
+| `thumbline.png` | Thumbnail image | Displayed at top of README. |
+| `public_transport_delay_cleaned.csv` | Clean dataset | Cleaned output copy at root. |
+| `feature_engineering.csv` | Engineered dataset | Used for modeling and app charts. |
+
+### `problem_statement/`
+
+| Path | What it is | Why it exists |
+|---|---|---|
+| `problem_statement/.txt` | Full problem statement | Objectives, features, workflow description. |
+| `problem_statement/public_transport_delay_cleaned.csv` | Clean dataset copy | Reference dataset for statement section. |
+
+### `ETL/` (Extract → Transform → Load) 🧹
+
+| Path | What it is | Why it exists |
+|---|---|---|
+| `ETL/Extract.ipynb` | Extract notebook | Reads raw file and prepares for cleaning. |
+| `ETL/Transform.ipynb` | Transform notebook | Cleans messy values, fixes types, standardizes categories. |
+| `ETL/Load.ipynb` | Load notebook | Loads cleaned data to MySQL using `SQLAlchemy` + `PyMySQL`. |
+| `ETL/public_transport_delay_messy_45000.csv` | Raw messy dataset | Input (contains symbols / mixed formats). |
+| `ETL/public_transport_delay_cleaned.csv` | Cleaned CSV | Output after transformation. |
+| `ETL/public_transport_delay_cleaned.xlsx` | Cleaned Excel | Alternate output format. |
+
+### `EDA/` 📊
+
+| Path | What it is | Why it exists |
+|---|---|---|
+| `EDA/eda.ipynb` | EDA notebook | Visual analysis: patterns, distributions, correlations, outliers. |
+
+### `perprocessing/` 🔧
+
+| Path | What it is | Why it exists |
+|---|---|---|
+| `perprocessing/.ipynb` | Preprocessing notebook | Imputation/encoding/scaling experiments (file name is `.ipynb`). |
+
+### `feature_engineering/` 🧠
+
+| Path | What it is | Why it exists |
+|---|---|---|
+| `feature_engineering/.ipynb` | Feature notebook | Creates new features for prediction. |
+| `feature_engineering/feature_engineering.csv` | Engineered dataset | Local copy used for modeling/visuals. |
+
+### `Model/` 🤖
+
+| Path | What it is | Why it exists |
+|---|---|---|
+| `Model/full_model_code.ipynb` | Full ML notebook | Pipelines, training, evaluation, SHAP, model saving. |
+| `Model/linear_model.pkl` | Saved model | Linear Regression model exported by notebook. |
+
+### `model_pipelines/` 🧩
+
+| Path | What it is | Why it exists |
+|---|---|---|
+| `model_pipelines/pipelines.ipynb` | Pipeline notebook | Focused notebook for preprocessing + model pipelines. |
+
+### `model_explainability/` 🔍
+
+| Path | What it is | Why it exists |
+|---|---|---|
+| `model_explainability/SHAP.ipynb` | SHAP notebook | Explainability: which features drive delays. |
+
+### `cross_validation/` ✅
+
+| Path | What it is | Why it exists |
+|---|---|---|
+| `cross_validation/.ipynb` | CV notebook | Cross-validation experiments (file name is `.ipynb`). |
+
+### `hyperparameter tuning/` 🎛️
+
+| Path | What it is | Why it exists |
+|---|---|---|
+| `hyperparameter tuning/.ipynb` | Tuning notebook | Hyperparameter tuning experiments (file name is `.ipynb`). |
+
+### `SQL/` 🗄️
+
+| Path | What it is | Why it exists |
+|---|---|---|
+| `SQL/transport_delay_queries.sql` | SQL queries | Average delay by city/traffic/rush hour, events, routes, etc. |
+
+### `power bi/` 📈
+
+| Path | What it is | Why it exists |
+|---|---|---|
+| `power bi/public_transport_delay.pbix` | Power BI report | Interactive dashboard for KPIs and insights. |
+
+### `app/` 🌐
+
+| Path | What it is | Why it exists |
+|---|---|---|
+| `app/delay_app.py` | Streamlit app | UI for model selection + prediction + charts. |
+| `app/linear_model.pkl` | Model file | Used by Streamlit for Linear Regression predictions. |
+| `app/Gemini_Generated_Image_joezrjjoezrjjoez.png` | App image | Welcome page image. |
+| `app/Gemini_Generated_Image_9i4rke9i4rke9i4r.png` | App image | Image shown after prediction. |
 
 ---
 
-### `ETL/` (Extract → Transform → Load)
+## 🖼️ Results (images shown from `Result pic/`)
 
-| File | Purpose |
+### ⭐ Main highlights
+
+| Preview | Description |
 |---|---|
-| `ETL/Extract.ipynb` | Reads source raw data and initial checks. |
-| `ETL/Transform.ipynb` | Cleans symbols/noise, fixes datatypes, standardizes values. |
-| `ETL/Load.ipynb` | Saves cleaned output for analysis/modeling. |
-| `ETL/public_transport_delay_messy_45000.csv` | Raw messy dataset (input). |
-| `ETL/public_transport_delay_cleaned.csv` | Cleaned ETL output. |
+| ![Power BI dashboard](Result%20pic/Screenshot%202026-04-01%20215913.png) | **Power BI dashboard:** KPIs, delay by city, traffic, route, rainfall, rush hour. |
+| ![Power BI data view](Result%20pic/Screenshot%202026-04-01%20215935.png) | **Power BI data view:** dataset fields and table view. |
+| ![Streamlit welcome](Result%20pic/Screenshot%202026-04-01%20221023.png) | **Streamlit welcome page** with model selector. |
+| ![Streamlit prediction](Result%20pic/Screenshot%202026-04-01%20221109.png) | **Streamlit prediction** page with input-to-model preview and output. |
+| ![Model evaluation](Result%20pic/Screenshot%202026-04-01%20221309.png) | **Random Forest evaluation** (actual vs prediction plot). |
 
----
-
-### `Model/` (training notebook)
-
-| File | Purpose |
-|---|---|
-| `Model/full_model_code.ipynb` | End-to-end ML: split, preprocess pipeline, train models, evaluate MAE/RMSE/R², SHAP, model export with `joblib`. |
-
-Model types used:
-- `LinearRegression`
-- `RandomForestRegressor`
-
----
-
-### `app/` (Streamlit app)
-
-| File | Purpose |
-|---|---|
-| `app/delay_app.py` | Streamlit UI with tabs: Welcome, About, User Input, Visualization, Developer section. |
-
-App behavior:
-- user enters rainfall/temp/humidity/wind/city/weekend/vehicle info,
-- app loads saved model,
-- app predicts delay minutes,
-- app shows quick charts.
-
----
-
-### `SQL/`
-
-| File | Purpose |
-|---|---|
-| `SQL/transport_delay_queries.sql` | SQL questions like avg delay by city, traffic level, rush hour, events, routes, etc. |
-
----
-
-### `power bi/`
-
-| File | Purpose |
-|---|---|
-| `power bi/public_transport_delay.pbix` | Main Power BI dashboard/report file. |
-
----
-
-## 🛠️ Tools and technologies used
-
-- 🐍 **Python**
-- 🧮 **NumPy**
-- 🐼 **Pandas**
-- 🤖 **scikit-learn**
-- 🔍 **SHAP**
-- 📉 **Matplotlib**
-- 🎨 **Seaborn**
-- 🗄️ **MySQL (SQL analysis)**
-- 📊 **Power BI**
-- 🌐 **Streamlit**
-- 💾 **joblib**
-
----
-
-## 📸 Result pictures (from `Result pic/`)
-
-These are project proof screenshots: dashboard, app, and model outputs.
-
-### Main highlighted outputs
-
-| Image | What it shows |
-|---|---|
-| ![Power BI Bus Dashboard](Result%20pic/Screenshot%202026-04-01%20215913.png) | Power BI KPI/dashboard page (delay by city, traffic, route, rainfall, rush hour). |
-| ![Power BI Data View](Result%20pic/Screenshot%202026-04-01%20215935.png) | Table/schema view showing fields used for analysis. |
-| ![Streamlit Welcome](Result%20pic/Screenshot%202026-04-01%20221023.png) | Streamlit app landing page with model selector. |
-| ![Streamlit Prediction](Result%20pic/Screenshot%202026-04-01%20221109.png) | User input + prediction output screen. |
-| ![Model Evaluation](Result%20pic/Screenshot%202026-04-01%20221309.png) | Actual vs predicted plot for Random Forest result. |
-
-### All result files in this project
+### 🗂️ All result screenshots
 
 - `Result pic/Screenshot 2026-04-01 215913.png`
 - `Result pic/Screenshot 2026-04-01 215935.png`
@@ -256,73 +228,13 @@ These are project proof screenshots: dashboard, app, and model outputs.
 
 ---
 
-## 🖼️ How to add thumbnail and result images in README
+## 🖼️ How to show images in README (important)
 
-### 1) Add thumbnail (`thumbline.png`)
-
-```markdown
-<p align="center">
-  <img src="thumbline.png" alt="Project thumbnail" width="760"/>
-</p>
-```
-
-### 2) Add any result image from `Result pic/`
-
-Because folder name has space, use `%20` in path:
+Because folder name has a space (**`Result pic`**), use `%20` in markdown paths:
 
 ```markdown
-![My Result](Result%20pic/Screenshot%202026-04-01%20215913.png)
+![Dashboard](Result%20pic/Screenshot%202026-04-01%20215913.png)
 ```
-
-### 3) If image is too big, use HTML size control
-
-```markdown
-<img src="Result%20pic/Screenshot%202026-04-01%20215913.png" alt="Result" width="800"/>
-```
-
----
-
-## ▶️ How to run project (clear)
-
-### Step 1: Open project
-- Open folder `Public_Transport_Delay` in VS Code/Cursor/Jupyter.
-
-### Step 2: Install Python libraries
-Run:
-
-```bash
-pip install pandas numpy scikit-learn matplotlib seaborn shap joblib streamlit
-```
-
-### Step 3: Run notebooks in order
-- Run `ETL/Extract.ipynb`
-- Run `ETL/Transform.ipynb`
-- Run `ETL/Load.ipynb`
-- Run preprocessing/feature files in `perprocessing/` and `feature_engineering/`
-- Run `EDA/eda.ipynb`
-- Run `Model/full_model_code.ipynb`
-
-This generates cleaned data and model artifacts.
-
-### Step 4: Run Streamlit app
-
-```bash
-cd app
-streamlit run delay_app.py
-```
-
-Then open the local URL shown in terminal.
-
-### Step 5: Open Power BI dashboard
-- Open `power bi/public_transport_delay.pbix` in Power BI Desktop.
-- Click **Refresh** if data does not appear.
-
----
-
-## ⚠️ Important note for running on another system
-
-Some scripts currently use **absolute Windows paths** (example: `C:\Users\...`).  
-If files do not load, change them to your local path or relative project paths.
 
 ---
 
@@ -336,5 +248,5 @@ If files do not load, change them to your local path or relative project paths.
 ---
 
 <p align="center">
-  🚍 Thanks for visiting this project! 📚
+  🚌 📊 🤖 — <em>Thanks for reading.</em>
 </p>
