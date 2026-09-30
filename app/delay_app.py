@@ -86,9 +86,9 @@ with tab3:
         input_data = {
 
             "CITY":city,
-            "ROUTE_ID":0,
+            "ROUTE_ID":1,
             'HOUR':12,
-            'DAY_OF_WEEK':2,
+            'DAY_OF_WEEK':3,
             'RAINFALL_MM':rainfall_mm,
             'TEMPERATURE':temperature,
             'HUMIDITY': humidity,
