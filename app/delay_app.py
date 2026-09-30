@@ -181,7 +181,7 @@ with tab5:
         st.write('Email:induriavinashreddy05@gmail.com')
         st.write('[Avinash_GitHub](https://github.com/avinashreddy0)')
 
-        st.write('[Avinash_linkedin](https://www.linkedin.com/in/avinash-reddy-induri-4662b832a/)')
+        st.write('[Avinash_linkedin](https://www.linkedin.com/in/avinash-reddy-induri-data-science/)')
           
             
 
